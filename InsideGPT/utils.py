@@ -57,8 +57,6 @@ def parse_vtt(file: BytesIO) -> str:
     text = re.sub(r"^WEBVTT\s*\n", "", text, flags=re.IGNORECASE)
     # Remove multiple newlines
     text = re.sub(r"\n\s*\n", "\n\n", text)
-    # Remove HTML tags
-    text = re.sub(r"</?v[^>]*>", "", text)
     return text
 
 
