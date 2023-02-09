@@ -53,10 +53,13 @@ def parse_txt(file: BytesIO) -> str:
 @st.experimental_memo()
 def parse_vtt(file: BytesIO) -> str:
     text = file.read().decode("utf-8")
-    # Remove WebVTT header
-    text = re.sub(r"^WEBVTT\s*\n", "", text, flags=re.IGNORECASE)
+    # Remove any vtt tags, such as the "WEBVTT" header and any cue identifier
+    text = re.sub(r"^WEBVTT.*\n", "", text, flags=re.MULTILINE)
+    text = re.sub(r"^\d+\n", "", text, flags=re.MULTILINE)
     # Remove multiple newlines
     text = re.sub(r"\n\s*\n", "\n\n", text)
+    # Convert the text into plain text format
+    text = re.sub(r"<[^>]*>", "", text)
     return text
 
 
