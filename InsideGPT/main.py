@@ -3,6 +3,7 @@ from utils import (
     parse_docx,
     parse_pdf,
     parse_txt,
+    parse_vtt,
     search_docs,
     embed_docs,
     text_to_docs,
@@ -13,6 +14,8 @@ from utils import (
 from openai.error import OpenAIError
 
 
+
+
 def clear_submit():
     st.session_state["submit"] = False
 
@@ -21,8 +24,8 @@ def set_openai_api_key(api_key: str):
     st.session_state["OPENAI_API_KEY"] = api_key
 
 
-st.set_page_config(page_title="TheraGPT", page_icon="📖", layout="wide")
-st.header("📖TheraGPT")
+st.set_page_config(page_title="InsideGPT ", page_icon="📖", layout="wide")
+st.header("📖InsideGPT ")
 
 with st.sidebar:
     st.markdown("# A propos")
@@ -58,9 +61,9 @@ with st.sidebar:
     st.markdown("Mod par [RemiPelloux](https://github.com/RemiPelloux)")
 
 uploaded_file = st.file_uploader(
-    "Téléchargez un fichier pdf, docx ou txt",
-    type=["pdf", "docx", "txt"],
-    help="Vous pouvez télécharger un fichier pdf, docx ou txt.",
+    "Téléchargez un fichier pdf, docx, vtt, txt",
+    type=["pdf", "docx", "txt", "vtt"],
+    help="Vous pouvez télécharger un fichier pdf,docx ,vtt ou txt.",
     on_change=clear_submit,
 )
 
@@ -73,8 +76,10 @@ if uploaded_file is not None:
         doc = parse_docx(uploaded_file)
     elif uploaded_file.name.endswith(".txt"):
         doc = parse_txt(uploaded_file)
+    elif uploaded_file.name.endswith(".vtt"):
+        doc = parse_vtt(uploaded_file)
     else:
-        raise ValueError("Le fichier doit être un pdf, docx ou txt.")
+        raise ValueError("Le fichier doit être un pdf, docx, txt ou vtt.")
     text = text_to_docs(doc)
     try:
         with st.spinner("Indexation du document... ⏳"):

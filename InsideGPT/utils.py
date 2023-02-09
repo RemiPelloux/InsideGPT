@@ -50,6 +50,18 @@ def parse_txt(file: BytesIO) -> str:
     return text
 
 
+@st.experimental_memo()
+def parse_vtt(file: BytesIO) -> str:
+    text = file.read().decode("utf-8")
+    # Remove WebVTT header
+    text = re.sub(r"^WEBVTT\s*\n", "", text, flags=re.IGNORECASE)
+    # Remove multiple newlines
+    text = re.sub(r"\n\s*\n", "\n\n", text)
+    # Remove HTML tags
+    text = re.sub(r"</?v[^>]*>", "", text)
+    return text
+
+
 @st.cache(allow_output_mutation=True)
 def text_to_docs(text: str | List[str]) -> List[Document]:
     """Converts a string or list of strings to a list of Documents
@@ -89,7 +101,7 @@ def embed_docs(docs: List[Document]) -> VectorStore:
 
     if not st.session_state.get("OPENAI_API_KEY"):
         raise AuthenticationError(
-            "Enter your OpenAI API key in the sidebar. You can get a key at https://platform.openai.com/account/api-keys."
+            "Erreur d'authentification. Veuillez entrer une clé API OpenAI valide."
         )
     else:
         # Embed the chunks
@@ -115,7 +127,8 @@ def get_answer(docs: List[Document], query: str) -> Dict[str, Any]:
 
     # Get the answer
 
-    chain = load_qa_with_sources_chain(OpenAI(temperature=0, openai_api_key=st.session_state.get("OPENAI_API_KEY")), chain_type="stuff", prompt=STUFF_PROMPT)  # type: ignore
+    chain = load_qa_with_sources_chain(OpenAI(temperature=0, openai_api_key=st.session_state.get("OPENAI_API_KEY")),
+                                       chain_type="stuff", prompt=STUFF_PROMPT)  # type: ignore
 
     # Cohere doesn't work very well as of now.
     # chain = load_qa_with_sources_chain(Cohere(temperature=0), chain_type="stuff", prompt=STUFF_PROMPT)  # type: ignore

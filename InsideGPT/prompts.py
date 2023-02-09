@@ -23,7 +23,8 @@ QUESTION: {question}
 =========
 {summaries}
 =========
-REPONSE FINALE:"""
+REPONSE FINALE:
+"""
 
 STUFF_PROMPT = PromptTemplate(
     template=template, input_variables=["summaries", "question"]

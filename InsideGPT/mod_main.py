@@ -21,8 +21,8 @@ def set_openai_api_key(api_key: str):
     st.session_state["OPENAI_API_KEY"] = api_key
 
 
-st.set_page_config(page_title="TheraGPT", page_icon="📖", layout="wide")
-st.header("📖TheraGPT")
+st.set_page_config(page_title="InsideGPT", page_icon="📖", layout="wide")
+st.header("📖InsideGPT")
 
 with st.sidebar:
     st.markdown("# A propos")
