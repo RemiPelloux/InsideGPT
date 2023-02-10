@@ -1,3 +1,5 @@
+import time
+
 import streamlit as st
 from components.sidebar import sidebar
 from openai.error import OpenAIError
@@ -48,9 +50,14 @@ if uploaded_file is not None:
     else:
         raise ValueError("Type de fichier non pris en charge")
     text = text_to_docs(doc)
+    st.write("Indexation du document en cours... ⏳")
+    with st.spinner("Indexation en cours... ⏳"):
+        progress_bar = st.progress(0)
+        for i in range(10):
+            time.sleep(0.1)
+            progress_bar.progress(10 * (i + 1))
     try:
-        with st.spinner("Indexation du document... ⏳"):
-            index = embed_docs(text)
+        index = embed_docs(text)
         st.session_state["api_key_configured"] = True
     except OpenAIError as e:
         st.error(e._message)
