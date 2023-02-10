@@ -7,6 +7,7 @@ Get quick and accurate answers for your documents with instant citations. This p
 
 -   Ask questions about your documents 📁 and receive answers with references.
 -   The answers come with citations 📚 and relevant text excerpts.
+-   It works in French, English, Italiano
 
 💻 Running Locally
 ------------------
