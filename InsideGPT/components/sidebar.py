@@ -107,8 +107,6 @@ def sidebar():
         )
         st.markdown(
             "Cet outil est en cours de développement. "
-            " "
-            ""
         )
         st.markdown("---")
         st.markdown(
