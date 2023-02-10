@@ -1,19 +1,19 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores.faiss import FAISS
-from langchain import OpenAI, Cohere
-from langchain.chains.qa_with_sources import load_qa_with_sources_chain
-from embeddings import OpenAIEmbeddings
-from langchain.llms import OpenAI
-from langchain.docstore.document import Document
-from langchain.vectorstores import FAISS, VectorStore
-import docx2txt
-from typing import List, Dict, Any
 import re
 from io import BytesIO
+from typing import Any, Dict, List
+
+import docx2txt
 import streamlit as st
-from prompts import STUFF_PROMPT
-from pypdf import PdfReader
+from embeddings import OpenAIEmbeddings
+from langchain import Cohere, OpenAI
+from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+from langchain.docstore.document import Document
+from langchain.llms import OpenAI
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores import FAISS, VectorStore
+from langchain.vectorstores.faiss import FAISS
 from openai.error import AuthenticationError
+from pypdf import PdfReader
 
 
 @st.experimental_memo()
@@ -126,7 +126,7 @@ def get_answer(docs: List[Document], query: str) -> Dict[str, Any]:
     # Get the answer
 
     chain = load_qa_with_sources_chain(OpenAI(temperature=0, openai_api_key=st.session_state.get("OPENAI_API_KEY")),
-                                       chain_type="stuff", prompt=STUFF_PROMPT)  # type: ignore
+                                       chain_type="stuff", prompt=st.session_state['template_rdy'])  # type: ignore
 
     # Cohere doesn't work very well as of now.
     # chain = load_qa_with_sources_chain(Cohere(temperature=0), chain_type="stuff", prompt=STUFF_PROMPT)  # type: ignore
