@@ -112,7 +112,7 @@ def sidebar():
         st.markdown(
             "## Comment utiliser\n"
             "1. Entrez votre [OpenAI API key](https://platform.openai.com/account/api-keys) ci-dessous 🔑\n"
-            "2. Téléchargez un fichier pdf, docx, txt, vtt 📄\n"
+            "2. Téléchargez un fichier pdf, docx, txt, vtt, pptx 📄\n"
             "3. Posez une question sur le document upload💬\n"
         )
         api_key_input = st.text_input(

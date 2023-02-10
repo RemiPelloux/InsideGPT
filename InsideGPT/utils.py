@@ -1,7 +1,7 @@
 import re
 from io import BytesIO
-from typing import Any, Dict, List
-
+from typing import Any, Dict, List, Tuple
+from pptx import Presentation
 import docx2txt
 import streamlit as st
 from embeddings import OpenAIEmbeddings
@@ -58,6 +58,20 @@ def parse_vtt(file: BytesIO) -> str:
     # Remove multiple newlines
     text = re.sub(r"\n\s*\n", "\n\n", text)
     return text
+
+
+@st.experimental_memo()
+def parse_pptx(file: BytesIO) -> str:
+    prs = Presentation(file)
+    text_runs = []
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if not shape.has_text_frame:
+                continue
+            for paragraph in shape.text_frame.paragraphs:
+                for run in paragraph.runs:
+                    text_runs.append(run.text)
+    return '\n'.join(text_runs)
 
 
 @st.cache(allow_output_mutation=True)
