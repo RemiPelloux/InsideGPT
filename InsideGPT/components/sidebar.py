@@ -99,7 +99,7 @@ def set_openai_api_key(api_key: str):
 
 def sidebar():
     with st.sidebar:
-        st.markdown("# About")
+        st.markdown("# A Propos")
         st.markdown(
             "📖InsideGPT permet de poser des questions sur vos "
             "documents et d'obtenir des réponses précises avec des citations instantanées. "
