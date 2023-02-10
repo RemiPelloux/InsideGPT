@@ -1,64 +1,31 @@
 import streamlit as st
+from components.sidebar import sidebar
+from openai.error import OpenAIError
 from utils import (
+    embed_docs,
+    get_answer,
+    get_sources,
     parse_docx,
     parse_pdf,
     parse_txt,
     parse_vtt,
     search_docs,
-    embed_docs,
     text_to_docs,
-    get_answer,
-    get_sources,
     wrap_text_in_html,
 )
-from openai.error import OpenAIError
-
-
 
 
 def clear_submit():
     st.session_state["submit"] = False
 
 
-def set_openai_api_key(api_key: str):
-    st.session_state["OPENAI_API_KEY"] = api_key
+st.set_page_config(page_title="InsideGPT", page_icon="📖", layout="wide")
+st.header("InsideGPT 📖")
 
+if "lang" not in st.session_state:
+    st.session_state["lang"] = "fr"
 
-st.set_page_config(page_title="InsideGPT ", page_icon="📖", layout="wide")
-st.header("📖InsideGPT ")
-
-with st.sidebar:
-    st.markdown("# A propos")
-    st.markdown(
-        "📖InsideGPT permet de poser des questions sur vos "
-        "documents et d'obtenir des réponses précises avec des citations instantanées. "
-        ""
-    )
-    st.markdown(
-        "Cet outil est en cours de développement. "
-        " "
-        ""
-    )
-    st.markdown("---")
-    st.markdown(
-        "## Comment utiliser\n"
-        "1. Entrez votre [OpenAI API key](https://platform.openai.com/account/api-keys) ci-dessous 🔑\n"
-        "2. Téléchargez un fichier pdf, docx ou txt 📄\n"
-        "3. Posez une question sur le document upload💬\n"
-    )
-    api_key_input = st.text_input(
-        "Cle OpenAI API",
-        type="password",
-        placeholder="Collez votre clé OpenAI API ici (sk-...)",
-        help="Vous pouvez obtenir votre clé API à partir de https://platform.openai.com/account/api-keys.",
-        value=st.session_state.get("OPENAI_API_KEY", ""),
-    )
-
-    if api_key_input:
-        set_openai_api_key(api_key_input)
-
-    st.markdown("---")
-    st.markdown("Mod par [RemiPelloux](https://github.com/RemiPelloux)")
+sidebar()
 
 uploaded_file = st.file_uploader(
     "Téléchargez un fichier pdf, docx, vtt, txt",
@@ -79,7 +46,7 @@ if uploaded_file is not None:
     elif uploaded_file.name.endswith(".vtt"):
         doc = parse_vtt(uploaded_file)
     else:
-        raise ValueError("Le fichier doit être un pdf, docx, txt ou vtt.")
+        raise ValueError("Type de fichier non pris en charge")
     text = text_to_docs(doc)
     try:
         with st.spinner("Indexation du document... ⏳"):
@@ -89,9 +56,10 @@ if uploaded_file is not None:
         st.error(e._message)
 
 query = st.text_area("Poser votre question ..", on_change=clear_submit)
-with st.expander("Options"):
+with st.expander("Options Avancées"):
     show_all_chunks = st.checkbox("Montrer tous les morceaux de réponse")
     show_full_doc = st.checkbox("Afficher le contenu analysé du document")
+
 
 if show_full_doc and doc:
     with st.expander("Document"):
@@ -119,6 +87,7 @@ if button or st.session_state.get("submit"):
                 sources = get_sources(answer, sources)
 
             with answer_col:
+                st.markdown(print(st.session_state["lang"]))
                 st.markdown("#### Réponse")
                 st.markdown(answer["output_text"].split("SOURCES: ")[0])
 
