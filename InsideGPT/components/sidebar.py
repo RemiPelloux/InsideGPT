@@ -107,6 +107,7 @@ def sidebar():
         )
         st.markdown(
             "Cet outil est en cours de développement. "
+            "Mod par [RemiPelloux](https://github.com/RemiPelloux)"
         )
         st.markdown("---")
         st.markdown(
@@ -132,4 +133,4 @@ def sidebar():
             set_language(lang)
             set_template(lang)
         st.markdown("---")
-        st.markdown("Mod par [RemiPelloux](https://github.com/RemiPelloux)")
+
