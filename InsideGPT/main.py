@@ -90,7 +90,6 @@ if button or st.session_state.get("submit"):
                 sources = get_sources(answer, sources)
 
             with answer_col:
-                st.markdown(print(st.session_state["lang"]))
                 st.markdown("#### Réponse")
                 st.markdown(answer["output_text"].split("SOURCES: ")[0])
 
