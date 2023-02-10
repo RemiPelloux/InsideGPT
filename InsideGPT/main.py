@@ -11,6 +11,7 @@ from utils import (
     parse_pdf,
     parse_txt,
     parse_vtt,
+    parse_pptx,
     search_docs,
     text_to_docs,
     wrap_text_in_html,
@@ -30,9 +31,9 @@ if "lang" not in st.session_state:
 sidebar()
 
 uploaded_file = st.file_uploader(
-    "Téléchargez un fichier pdf, docx, vtt, txt",
-    type=["pdf", "docx", "txt", "vtt"],
-    help="Vous pouvez télécharger un fichier pdf,docx ,vtt ou txt.",
+    "Téléchargez un fichier pdf, docx, vtt, txt, pptx",
+    type=["pdf", "docx", "txt", "vtt", "pptx"],
+    help="Vous pouvez télécharger un fichier pdf,docx ,vtt, pptx ou txt.",
     on_change=clear_submit,
 )
 
@@ -47,6 +48,8 @@ if uploaded_file is not None:
         doc = parse_txt(uploaded_file)
     elif uploaded_file.name.endswith(".vtt"):
         doc = parse_vtt(uploaded_file)
+    elif uploaded_file.name.endswith(".pptx"):
+        doc = parse_pptx(uploaded_file)
     else:
         raise ValueError("Type de fichier non pris en charge")
     text = text_to_docs(doc)
@@ -94,7 +97,6 @@ if button or st.session_state.get("submit"):
                 sources = get_sources(answer, sources)
 
             with answer_col:
-                st.markdown(print(st.session_state["lang"]))
                 st.markdown("#### Réponse")
                 st.markdown(answer["output_text"].split("SOURCES: ")[0])
 

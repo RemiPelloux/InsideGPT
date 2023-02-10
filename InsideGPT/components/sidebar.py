@@ -107,12 +107,13 @@ def sidebar():
         )
         st.markdown(
             "Cet outil est en cours de développement. "
+            "Mod par [RemiPelloux](https://github.com/RemiPelloux)"
         )
         st.markdown("---")
         st.markdown(
             "## Comment utiliser\n"
             "1. Entrez votre [OpenAI API key](https://platform.openai.com/account/api-keys) ci-dessous 🔑\n"
-            "2. Téléchargez un fichier pdf, docx, txt, vtt 📄\n"
+            "2. Téléchargez un fichier pdf, docx, txt, vtt, pptx 📄\n"
             "3. Posez une question sur le document upload💬\n"
         )
         api_key_input = st.text_input(
@@ -132,4 +133,4 @@ def sidebar():
             set_language(lang)
             set_template(lang)
         st.markdown("---")
-        st.markdown("Mod par [RemiPelloux](https://github.com/RemiPelloux)")
+
