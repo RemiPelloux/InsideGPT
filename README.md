@@ -93,3 +93,4 @@ Install required packages using pip
 -   `pip install embeddings`
 -   `pip install docx2txt`
 -   `pip install pypdf2`
+-   ` pip install python-pptx `
