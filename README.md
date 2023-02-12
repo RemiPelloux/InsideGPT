@@ -3,7 +3,7 @@ InsideGPT
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
-InsideGPT is a project that allows you to explore and use OpenAI's GPT-3 language model for generating text.
+InsideGPT is a project that allows you to explore document for sending theses with embbedings and use OpenAI's GPT-3 language model for generating text.
 
 Getting Started
 ---------------
